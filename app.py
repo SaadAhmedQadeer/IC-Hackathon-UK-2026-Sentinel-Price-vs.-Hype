@@ -6,20 +6,39 @@ from textblob import TextBlob
 
 # --- PAGE CONFIGURATION ---
 st.set_page_config(page_title="Sentinel", page_icon="📈", layout="wide")
+##
 
+##
 # --- CSS FOR STYLING (Make it look pro) ---
+# --- CSS FOR STYLING (Updated to fix Button) ---
 st.markdown("""
 <style>
-    .metric-card {
-        background-color: #0e1117;
-        border: 1px solid #30333d;
-        padding: 20px;
-        border-radius: 10px;
-        text-align: center;
-    }
+    /* 1. Main App Background */
     .stApp {
         background-color: #000000;
         color: white;
+    }
+    
+    /* 2. Fix the "Run Analysis" Button */
+    div.stButton > button {
+        background-color: #ff4b4b; /* Streamlit Red */
+        color: white;              /* White Text */
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        font-weight: bold;
+    }
+
+    /* 3. Button Hover Effect */
+    div.stButton > button:hover {
+        background-color: #ff3333; /* Slightly brighter red on hover */
+        color: white;
+        border: none;
+    }
+    
+    /* 4. Metric Cards (Optional polish) */
+    div[data-testid="stMetricValue"] {
+        color: #ff4b4b; /* Make numbers pop with color */
     }
 </style>
 """, unsafe_allow_html=True)
@@ -99,4 +118,5 @@ if st.button("Run Analysis") or True: # 'or True' makes it run on load
         for news in news_headlines:
             sentiment_val = TextBlob(news).sentiment.polarity
             color = "green" if sentiment_val > 0 else "red" if sentiment_val < 0 else "gray"
+
             st.markdown(f"**:{color}[{'POSITIVE' if sentiment_val > 0 else 'NEGATIVE'}]** - {news}")
